@@ -97,7 +97,7 @@ def clean_letter():
     letter_ok = False
     while letter_ok == False:
         try:
-            user_letter = input("Escribe una letra para adivinar la palabra: ")
+            user_letter = input("Write a letter to guess the word: ")
             if len(user_letter) == 0 or user_letter.isnumeric() or len(user_letter) > 1 or user_letter in ASCII_CHARS:
                 raise ValueError
             user_letter = user_letter.lower()
@@ -129,11 +129,11 @@ def run_game():
         formed_word = list(map(lambda x: x if x in user_letters else "-", list(value_to_play)))
         if "".join(formed_word) == value_to_play:
             decorator(key_to_play, value_to_play,user_letters, wrong_letter)
-            print(LEFT_SPACE+"¡S A L V A S T E   A L   A H O R C A D O !")
+            print(LEFT_SPACE+"¡H A N G M A N   I S   S A V E D !")
             is_playing = False
         if wrong_letter == 12 and is_playing:
             decorator(key_to_play, value_to_play,user_letters, wrong_letter)
-            print(LEFT_SPACE+"A H O R C A D O :/ La palabra era: "+ key_to_play.capitalize())
+            print(LEFT_SPACE+"H A N G E D :/ The word is: "+ key_to_play.capitalize())
             is_playing = False
 
 
