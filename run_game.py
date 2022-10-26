@@ -120,7 +120,7 @@ def run_game():
     while is_playing:
         decorator(key_to_play ,value_to_play, user_letters, wrong_letter)
         if len(user_letters) !=0 :
-            print("the letters already used are: "+ str(user_letters))
+            print("The letters already used are: "+ str(user_letters))
         user_letter = clean_letter()
         if user_letter not in list(value_to_play):
             wrong_letter +=1
@@ -129,7 +129,7 @@ def run_game():
         formed_word = list(map(lambda x: x if x in user_letters else "-", list(value_to_play)))
         if "".join(formed_word) == value_to_play:
             decorator(key_to_play, value_to_play,user_letters, wrong_letter)
-            print(LEFT_SPACE+"¡H A N G M A N   I S   S A V E D !")
+            print("¡C O N G R A T U L A T I O N S   H A N G M A N   I S   S A V E D !")
             is_playing = False
         if wrong_letter == 12 and is_playing:
             decorator(key_to_play, value_to_play,user_letters, wrong_letter)
