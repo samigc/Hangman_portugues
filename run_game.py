@@ -1,3 +1,4 @@
+from ast import Return
 import random
 import csv
 import json
@@ -109,6 +110,46 @@ def clean_letter():
     return user_letter
 
 
+def game_rules(key_to_play ,value_to_play, user_letters, wrong_letter):
+    decorator(key_to_play ,value_to_play, user_letters, wrong_letter)
+    if len(user_letters) !=0 :
+        print("The letters already used are: "+ str(user_letters))
+    user_letter = clean_letter()
+    if user_letter not in list(value_to_play):
+        wrong_letter +=1
+    if user_letter not in user_letters:
+        user_letters.append(user_letter)
+    return user_letters, wrong_letter
+
+def game_ended(key_to_play,value_to_play,user_letters, wrong_letter, is_playing, formed_word):
+    formed_word = list(map(lambda x: x if x in user_letters else "-", list(value_to_play)))
+    if "".join(formed_word) == value_to_play:
+        decorator(key_to_play, value_to_play,user_letters, wrong_letter)
+        print("""\n 
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ▓                            ▓  
+            ▓       CONGRATULATIONS!!    ▓
+            ▓                            ▓
+            ▓       LA PALABRA ERA       ▓
+            ▓        """,key_to_play.capitalize()+" "*(18-len(key_to_play)),"""▓
+            ▓                            ▓
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓""")
+        is_playing = False
+    if wrong_letter == 12 and is_playing:
+        decorator(key_to_play, value_to_play,user_letters, wrong_letter)
+        print(""""
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            ▓                            ▓  
+            ▓       HANGED!!             ▓
+            ▓                            ▓
+            ▓       LA PALABRA ERA       ▓
+            ▓        """,key_to_play.capitalize()+" "*(18-len(key_to_play)),"""▓
+            ▓                            ▓
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            """)
+        is_playing = False
+    return is_playing
+
 def run_game():
     #definition of constants
     dictionary_route = './Archives/diccionario.csv'
@@ -120,41 +161,9 @@ def run_game():
     is_playing = True
     wrong_letter = 0
     while is_playing:
-        decorator(key_to_play ,value_to_play, user_letters, wrong_letter)
-        if len(user_letters) !=0 :
-            print("The letters already used are: "+ str(user_letters))
-        user_letter = clean_letter()
-        if user_letter not in list(value_to_play):
-            wrong_letter +=1
-        if user_letter not in user_letters:
-            user_letters.append(user_letter)
+        user_letters, wrong_letter = game_rules(key_to_play ,value_to_play, user_letters, wrong_letter)
         formed_word = list(map(lambda x: x if x in user_letters else "-", list(value_to_play)))
-        if "".join(formed_word) == value_to_play:
-            decorator(key_to_play, value_to_play,user_letters, wrong_letter)
-            print("""\n 
-                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-                ▓                            ▓  
-                ▓       CONGRATULATIONS!!    ▓
-                ▓                            ▓
-                ▓       LA PALABRA ERA       ▓
-                ▓        """,key_to_play.capitalize()+" "*(18-len(key_to_play)),"""▓
-                ▓                            ▓
-                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓""")
-            is_playing = False
-        if wrong_letter == 12 and is_playing:
-            decorator(key_to_play, value_to_play,user_letters, wrong_letter)
-            print(""""
-                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-                ▓                            ▓  
-                ▓       HANGED!!             ▓
-                ▓                            ▓
-                ▓       LA PALABRA ERA       ▓
-                ▓        """,key_to_play.capitalize()+" "*(18-len(key_to_play)),"""▓
-                ▓                            ▓
-                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-                """)
-            is_playing = False
-
+        is_playing = game_ended(key_to_play,value_to_play,user_letters, wrong_letter, is_playing, formed_word)
 
 
 if __name__ == '__main__':
